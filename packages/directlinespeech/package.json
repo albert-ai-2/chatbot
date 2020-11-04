@@ -1,0 +1,72 @@
+{
+  "name": "botframework-directlinespeech-sdk",
+  "version": "0.0.0-0",
+  "description": "Direct Line Speech SDK",
+  "files": [
+    "dist/**/*",
+    "lib/**/*"
+  ],
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "npm run build:babel && npm run build:webpack",
+    "build:babel": "babel src --ignore **/*.spec.js,**/*.test.js,__tests__/**/*.js --out-dir lib --verbose",
+    "build:webpack": "concurrently --names \"dev,prod\" \"npm run build:webpack:development\" \"npm run build:webpack:production\"",
+    "build:webpack:development": "cross-env node_env=development webpack-cli",
+    "build:webpack:production": "cross-env node_env=production webpack-cli",
+    "eslint": "eslint src/**/*.js",
+    "prestart": "npm run build:babel",
+    "start": "npm run start:babel && concurrently --kill-others --names \"babel,serve,webpack\" \"npm run start:babel:watch\" \"npm run start:serve\" \"npm run start:webpack\"",
+    "start:babel": "npm run build:babel --",
+    "start:babel:watch": "npm run start:babel -- --skip-initial-build --watch",
+    "start:serve": "serve",
+    "start:webpack": "npm run build:webpack:development -- --watch",
+    "test": "jest --watch"
+  },
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "babel-jest": "^26.3.0",
+    "babel-plugin-istanbul": "^6.0.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "concurrently": "^5.3.0",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.7.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "global-agent": "^2.1.12",
+    "has-resolved": "^1.1.0",
+    "jest": "^26.4.2",
+    "node-fetch": "^2.6.0",
+    "prettier": "^2.1.1",
+    "serve": "^11.3.2",
+    "simple-update-in": "^2.2.0",
+    "source-map-loader": "^1.0.2",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-stats-plugin": "^0.3.2"
+  },
+  "dependencies": {
+    "@babel/runtime": "7.11.2",
+    "abort-controller": "3.0.0",
+    "abort-controller-es5": "1.2.0",
+    "base64-arraybuffer": "0.2.0",
+    "core-js": "3.6.5",
+    "event-as-promise": "1.0.5",
+    "event-target-shim": "5.0.1",
+    "event-target-shim-es5": "1.2.0",
+    "math-random": "2.0.1",
+    "microsoft-cognitiveservices-speech-sdk": "1.13.1",
+    "p-defer": "3.0.0",
+    "p-defer-es5": "1.2.1",
+    "web-speech-cognitive-services": "7.0.2-master.6004e4b"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

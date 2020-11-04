@@ -1,0 +1,78 @@
+{
+  "name": "botframework-webchat-root",
+  "version": "4.10.2-0",
+  "private": true,
+  "files": [
+    "lib/**/*"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsoft/BotFramework-WebChat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microsoft/BotFramework-WebChat/issues"
+  },
+  "homepage": "https://github.com/microsoft/BotFramework-WebChat#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --no-stash"
+    }
+  },
+  "keywords": [],
+  "scripts": {
+    "bootstrap": "lerna bootstrap --ci",
+    "build": "lerna run --ignore playground --stream build",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "eslint": "lerna run --parallel --stream eslint",
+    "posteslint": "npm run prettier-readmes",
+    "prettier-readmes": "prettier --write **/**/*.md --tab-width 3 --single-quote true",
+    "start": "concurrently --kill-others --raw \"serve\" \"serve -p 5001 -c serve-test.json\" \"lerna run --ignore playground --parallel --stream start\"",
+    "start:docker": "npm run start:docker:build && npm run start:docker:up",
+    "start:docker:build": "docker-compose -f docker-compose-wsl2.yml build --parallel",
+    "start:docker:up": "docker-compose -f docker-compose-wsl2.yml up --scale chrome=4",
+    "stop:docker": "docker-compose -f docker-compose-wsl2.yml stop",
+    "tableflip": "npx lerna clean --yes --concurrency 8 && npx rimraf node_modules && npm ci && npm run bootstrap -- --concurrency 8",
+    "test": "jest --watch",
+    "test:ci": "npm run test -- --ci --coverage true --no-watch",
+    "watch": "echo NPM script \"watch\" has been replaced with \"start\"."
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@babel/runtime": "^7.11.0",
+    "abort-controller": "^3.0.0",
+    "babel-jest": "^26.2.2",
+    "concurrently": "^5.3.0",
+    "core-js": "^3.6.5",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "error-stack-parser": "^2.0.6",
+    "get-port": "^5.1.1",
+    "global-agent": "^2.1.12",
+    "husky": "^4.2.5",
+    "jest": "^26.2.2",
+    "jest-image-snapshot": "^4.1.0",
+    "jest-junit": "^11.1.0",
+    "jest-trx-results-processor": "^2.0.3",
+    "lerna": "^3.22.1",
+    "lint-staged": "^10.2.13",
+    "lolex": "^5.1.2",
+    "node-fetch": "^2.6.0",
+    "p-defer": "^3.0.0",
+    "prettier": "^2.0.5",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "selenium-webdriver": "^4.0.0-alpha.7",
+    "serve": "^11.3.2",
+    "serve-handler": "^6.1.3",
+    "strip-ansi": "^6.0.0",
+    "xmlbuilder": "^15.1.1"
+  },
+  "dependencies": {}
+}

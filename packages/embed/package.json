@@ -1,0 +1,56 @@
+{
+  "name": "embed",
+  "version": "0.0.0-0",
+  "description": "",
+  "main": "src/index.js",
+  "private": true,
+  "jest": {
+    "collectCoverageFrom": [
+      "**/src/**/*.{js,jsx}",
+      "!**/*.{spec,test}.{js,jsx,ts,tsx}",
+      "!**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "!**/node_modules/**"
+    ],
+    "testEnvironment": "node"
+  },
+  "scripts": {
+    "build": "npm run build:babel && npm run build:webpack",
+    "build:babel": "babel src --ignore **/*.spec.js,**/*.test.js,__tests__/**/*.js --out-dir lib --verbose",
+    "build:webpack": "webpack-cli",
+    "prestart": "npm run build:babel",
+    "start": "concurrently --kill-others --names \"babel,server,webpack\" \"npm run start:babel\" \"npm run start:server\" \"npm run start:webpack\"",
+    "start:babel": "npm run build:babel -- --skip-initial-build --watch",
+    "start:server": "node-dev --no-notify --respawn hostDevServer",
+    "start:webpack": "npm run build:webpack -- --watch",
+    "test": "jest --watch",
+    "test:ci": "npm run test -- --ci --coverage true --no-watch"
+  },
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "concurrently": "^5.3.0",
+    "copy-webpack-plugin": "^6.0.3",
+    "html-webpack-plugin": "^4.3.0",
+    "http-proxy-middleware": "^1.0.5",
+    "jest": "^26.4.2",
+    "node-dev": "^5.2.0",
+    "node-fetch": "^2.6.0",
+    "pug": "^3.0.0",
+    "pug-loader": "^2.4.0",
+    "restify": "^8.5.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-visualizer-plugin": "^0.1.11"
+  },
+  "dependencies": {
+    "@babel/runtime": "7.11.2",
+    "core-js": "3.6.5",
+    "url-search-params-polyfill": "8.1.0",
+    "whatwg-fetch": "3.4.0"
+  }
+}
